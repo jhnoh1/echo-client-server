@@ -11,7 +11,7 @@
 void usage() {
 	printf("tcp client v1.0.0.5\n");
 	printf("\n");
-	printf("syntax: tc <ip> <port> [-si <src ip>] [-sp <src port>]\n");
+	printf("syntax: tc <ip> <port>\n");
 	printf("sample: tc 127.0.0.1 1234\n");
 }
 
@@ -23,25 +23,8 @@ struct Param {
 
 	bool parse(int argc, char* argv[]) {
 		for (int i = 1; i < argc;) {
-			if (strcmp(argv[i], "-si") == 0) {
-				int res = inet_pton(AF_INET, argv[i + 1], &srcIp);
-				switch (res) {
-					case 1: break;
-					case 0: fprintf(stderr, "not a valid network address\n"); return false;
-					case -1: myerror("inet_pton"); return false;
-				}
-				i += 2;
-				continue;
-			}
-
-			if (strcmp(argv[i], "-sp") == 0) {
-				srcPort = atoi(argv[i + 1]);
-				i += 2;
-				continue;
-			}
-
-			ip = argv[i++];
-			if (i < argc) port =argv[i++];
+			ip = argv[1];
+			port =argv[2];
 		}
 		return (ip != nullptr) && (port != nullptr);
 	}
@@ -56,7 +39,6 @@ void recvThread(int sd) {
 		ssize_t res = ::recv(sd, buf, BUFSIZE - 1, 0);
 		if (res == 0 || res == -1) {
 			fprintf(stderr, "recv return %ld", res);
-			myerror(" ");
 			break;
 		}
 		buf[res] = '\0';
@@ -111,7 +93,6 @@ int main(int argc, char* argv[]) {
 		int optval = 1;
 		int res = ::setsockopt(sd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
 		if (res == -1) {
-			myerror("setsockopt");
 			return -1;
 		}
 	}
@@ -127,7 +108,6 @@ int main(int argc, char* argv[]) {
 
 		ssize_t res = ::bind(sd, (struct sockaddr *)&addr, sizeof(addr));
 		if (res == -1) {
-			myerror("bind");
 			return -1;
 		}
 	}
@@ -138,7 +118,6 @@ int main(int argc, char* argv[]) {
 	{
 		int res = ::connect(sd, ai->ai_addr, ai->ai_addrlen);
 		if (res == -1) {
-			myerror("connect");
 			return -1;
 		}
 	}
@@ -153,7 +132,6 @@ int main(int argc, char* argv[]) {
 		ssize_t res = ::send(sd, s.data(), s.size(), 0);
 		if (res == 0 || res == -1) {
 			fprintf(stderr, "send return %ld", res);
-			myerror(" ");
 			break;
 		}
 	}
