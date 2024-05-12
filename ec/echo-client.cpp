@@ -32,10 +32,6 @@ int main(int argc, char **argv){
 		return -1;
 	}
 	int sd = ::socket(AF_INET, SOCK_STREAM, 0);
-	char* ip{nullptr};
-	char* port{nullptr};
-	ip = argv[1];
-	port =argv[2];
 	struct sockaddr_in server_add;
 	memset(&server_add,0,sizeof(server_add));
 	server_add.sin_family = AF_INET;
