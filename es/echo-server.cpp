@@ -19,7 +19,6 @@ struct Param {
 	bool echo{false};
     bool broadcast{false};
 	uint16_t port{0};
-	uint32_t srcIp{0};
 
 	bool parse(int argc, char* argv[]) {
 		for (int i = 1; i < argc;) {
