@@ -10,7 +10,7 @@
 void usage() {
 	printf("tcp server v1.0.0.5\n");
 	printf("\n");
-	printf("syntax: ts <port> [-e] [-si <src ip>]\n");
+	printf("syntax: ts <port> [-e]\n");
 	printf("  -e : echo\n");
 	printf("sample: ts 1234\n");
 }
@@ -33,18 +33,6 @@ struct Param {
                 i++;
                 continue;
             }
-
-			if (strcmp(argv[i], "-si") == 0) {
-				int res = inet_pton(AF_INET, argv[i + 1], &srcIp);
-				switch (res) {
-					case 1: break;
-					case 0: fprintf(stderr, "not a valid network address\n"); return false;
-					case -1: myerror("inet_pton"); return false;
-				}
-				i += 2;
-				continue;
-			}
-
 			if (i < argc) port = atoi(argv[i++]);
 		}
 		return port != 0;
