@@ -10,7 +10,6 @@
 
 void recvThread(int sd) {
 	printf("connected\n");
-	fflush(stdout);
 	static const int BUFSIZE = 65536;
 	char buf[BUFSIZE];
 	while (true) {
@@ -21,10 +20,8 @@ void recvThread(int sd) {
 		}
 		buf[res] = '\0';
 		printf("%s", buf);
-		fflush(stdout);
 	}
 	printf("disconnected\n");
-	fflush(stdout);
 	::close(sd);
 	exit(0);
 }
