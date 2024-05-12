@@ -10,7 +10,7 @@
 
 void recvThread(int sd) {
 	printf("connected\n");
-	static const int BUFSIZE = 65536;
+	static const int BUFSIZE = 10000;
 	char buf[BUFSIZE];
 	while (true) {
 		ssize_t res = ::recv(sd, buf, BUFSIZE - 1, 0);
