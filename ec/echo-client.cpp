@@ -1,23 +1,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#ifdef __linux__
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
-#endif // __linux
-#ifdef WIN32
-#include <ws2tcpip.h>
-#include "../mingw_net.h"
-#endif // WIN32
 #include <iostream>
 #include <thread>
 
-#ifdef WIN32
-void myerror(const char* msg) { fprintf(stderr, "%s %ld\n", msg, GetLastError()); }
-#else
-void myerror(const char* msg) { fprintf(stderr, "%s %s %d\n", msg, strerror(errno), errno); }
-#endif
 
 void usage() {
 	printf("tcp client v1.0.0.5\n");
@@ -86,11 +75,6 @@ int main(int argc, char* argv[]) {
 		return -1;
 	}
 
-#ifdef WIN32
-	WSAData wsaData;
-	WSAStartup(0x0202, &wsaData);
-#endif // WIN32
-
 	//
 	// getaddrinfo
 	//
@@ -120,7 +104,6 @@ int main(int argc, char* argv[]) {
 		return -1;
 	}
 
-#ifdef __linux__
 	//
 	// setsockopt
 	//
@@ -132,7 +115,6 @@ int main(int argc, char* argv[]) {
 			return -1;
 		}
 	}
-#endif // __linux
 
 	//
 	// bind
