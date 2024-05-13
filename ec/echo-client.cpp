@@ -55,7 +55,7 @@ int main(int argc, char **argv){
 	while (true) {
 		std::string s;
 		std::getline(std::cin, s);
-		s += "\n";
+		s += "\r\n";
 		ssize_t res = ::send(sd, s.data(), s.size(), 0);
 		if (res == 0 || res == -1) {
 			fprintf(stderr, "send return %ld", res);
