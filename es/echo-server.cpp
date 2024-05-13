@@ -135,7 +135,9 @@ int main(int argc, char* argv[]) {
 		if (newsd == -1) {
 			break;
 		}
+		client_socket.lock();
 		client_sockets.push_back(newsd);
+		client_socket.unlock();
 		std::thread* t = new std::thread(recvThread, newsd,echo,broadcast);
 		t->detach();
 	}
