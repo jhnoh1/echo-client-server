@@ -73,6 +73,7 @@ void recvThread(int sd,bool echo, bool broadcast) {
 	}
 	printf("disconnected\n");
 	fflush(stdout);
+	remove(client_sockets.begin(),client_sockets.end(),sd);
 	::close(sd);
 }
 
