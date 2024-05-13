@@ -38,7 +38,7 @@ struct Param {
 	}
 } param;
 
-std::vector<int> client_sockets;
+std::vector<int> client_sockets.reserve(5);
 
 void recvThread(int sd,bool echo, bool broadcast) {
 	printf("connected\n");
